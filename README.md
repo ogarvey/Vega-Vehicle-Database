@@ -1,0 +1,1 @@
+Repository to accompany the Udemy course: Build a full-stack web app with ASP.NET Core, Entity Framework Core and Angular 2 (Angular 4+) - By Mosh
