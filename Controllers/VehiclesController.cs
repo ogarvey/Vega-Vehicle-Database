@@ -18,7 +18,7 @@ namespace vega.Controllers
         public IUnitOfWork _uow { get; set; }
 
         public VehiclesController(IMapper mapper
-            , UnitOfWork uow
+            , IUnitOfWork uow
             , IVehicleRepository repo)
         {
             _mapper = mapper;
