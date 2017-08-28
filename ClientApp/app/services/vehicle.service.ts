@@ -1,26 +1,31 @@
 import { Http } from '@angular/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class VehicleService {
     
-    constructor(private http: Http) {
+    constructor(private http: Http, @Inject('ORIGIN_URL') private originUrl: string) {
         
     }
 
+    getVehicle(id) {
+        if(id) return this.http.get(this.originUrl + '/api/vehicles/' + id)
+            .map(res => res.json());
+    }
+
     getMakes() {
-        return this.http.get('/api/makes')
+        return this.http.get(this.originUrl + '/api/makes')
             .map(res => res.json());
     }
 
     getFeatures() {
-        return this.http.get('/api/features')
+        return this.http.get(this.originUrl + '/api/features')
             .map(res => res.json());
     }
 
     create(vehicle) {
-        return this.http.post('api/vehicles', vehicle)
+        return this.http.post(this.originUrl + '/api/vehicles', vehicle)
             .map(res => res.json());
     }
 }
