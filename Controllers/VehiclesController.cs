@@ -98,6 +98,7 @@ namespace vega.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVehicle(int id)
         {
+
             var vehicle = await _repo.GetVehicle(id, true);
 
             if(vehicle == null)
