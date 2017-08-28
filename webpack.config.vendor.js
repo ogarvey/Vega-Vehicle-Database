@@ -31,6 +31,8 @@ module.exports = (env) => {
                 'es6-promise',
                 'event-source-polyfill',
                 'jquery',
+                'ng2-toasty',
+                'ng2-toasty/bundles/style-bootstrap.css',
                 'zone.js',
             ]
         },
