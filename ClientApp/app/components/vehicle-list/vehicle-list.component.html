@@ -1,7 +1,32 @@
 <h2>Vehicles</h2>
 <p>
-  <a [routerLink]="['/vehicles/new']" class="btn btn-primary">New Vehicle</a>
+    <a [routerLink]="['/vehicles/new']" class="btn btn-primary">New Vehicle</a>
 </p>
+<div class="well">
+    <div class="form-group">
+        <label for="make">Make</label>
+        <select name="make" id="make" class="form-control" [(ngModel)]="filter.makeId" (change)="onFilterChange()">
+                <option value="">Filter by make...</option>
+                <option *ngFor="let m of makes" value="{{m.id}}">{{ m.name }}</option>
+                </select>
+    </div>
+    <div class="form-group">
+        <label for="model">Model</label>
+        <select name="model" id="model" class="form-control" [(ngModel)]="filter.modelId" (change)="onFilterChange()">
+                <option value="">Filter by model...</option>
+                <option *ngFor="let m of models" value="{{m.id}}">{{ m.name }}</option>
+                </select>
+    </div>
+    <div class="form-group">
+        <label for="registered">Registered</label>
+        <select name="registered" id="registered" class="form-control" [(ngModel)]="filter.isRegistered" (change)="onFilterChange()">
+                <option value="">Filter by registration...</option>
+                <option value="1">Registered</option>
+                <option value="0">Unegistered</option>
+                </select>
+    </div>
+    <button class="btn btn-default" (click)="resetFilter()">Reset</button>
+</div>
 <div class="table-responsive">
     <table class="table table">
         <thead>
