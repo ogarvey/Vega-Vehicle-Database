@@ -4,13 +4,13 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class VehicleService {
-    
+
     constructor(private http: Http, @Inject('ORIGIN_URL') private originUrl: string) {
-        
+
     }
 
     getVehicle(id) {
-        if(id) return this.http.get(this.originUrl + '/api/vehicles/' + id)
+        if (id) return this.http.get(this.originUrl + '/api/vehicles/' + id)
             .map(res => res.json());
     }
 
@@ -28,4 +28,15 @@ export class VehicleService {
         return this.http.post(this.originUrl + '/api/vehicles', vehicle)
             .map(res => res.json());
     }
+
+    update(vehicle) {
+        return this.http.put(this.originUrl + '/api/vehicles/' + vehicle.id, vehicle)
+            .map(res => res.json());
+    }
+
+    delete(id) {
+        return this.http.delete(this.originUrl + '/api/vehicles/' + id)
+            .map(res => res.json());
+    }
+
 }
