@@ -14,6 +14,11 @@ export class VehicleService {
             .map(res => res.json());
     }
 
+    getVehicles() {
+        return this.http.get(this.originUrl + '/api/vehicles/')
+            .map(res => res.json());
+    }
+
     getMakes() {
         return this.http.get(this.originUrl + '/api/makes')
             .map(res => res.json());

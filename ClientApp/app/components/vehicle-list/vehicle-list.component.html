@@ -1,0 +1,26 @@
+<h2>Vehicles</h2>
+<p>
+  <a [routerLink]="['/vehicles/new']" class="btn btn-primary">New Vehicle</a>
+</p>
+<div class="table-responsive">
+    <table class="table table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Contact Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tr *ngFor="let vehicle of vehicles">
+            <th scope="row">{{ vehicle.id }}</th>
+            <td>{{ vehicle.make.name }}</td>
+            <td>{{ vehicle.model.name }}</td>
+            <td>{{ vehicle.contact.name }}</td>
+            <td>
+                <a [routerLink]="['/vehicles/', vehicle.id]">View</a>
+            </td>
+        </tr>
+    </table>
+</div>
