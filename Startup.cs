@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using vega.Data.Persistence;
+using Vega.Data.Persistence;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using vega.Interfaces;
+using Vega.Interfaces;
 
 namespace WebApplicationBasic
 {

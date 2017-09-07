@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using vega.Data.Models;
+using Vega.Data.Models;
 
-namespace vega.Data.Models
+namespace Vega.Data.Models
 {
     public class Vehicle
     {

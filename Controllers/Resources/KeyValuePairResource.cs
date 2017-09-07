@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace vega.Controllers.Resources
+namespace Vega.Controllers.Resources
 {
     public class KeyValuePairResource
     {

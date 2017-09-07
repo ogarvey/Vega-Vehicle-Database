@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using vega.Interfaces;
+using Vega.Interfaces;
 
-namespace vega.Data.Persistence
+namespace Vega.Data.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {

@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using vega.Controllers.Resources;
-using vega.Data.Persistence;
-using vega.Data.Models;
-using vega.Interfaces;
+using Vega.Controllers.Resources;
+using Vega.Data.Persistence;
+using Vega.Data.Models;
+using Vega.Interfaces;
 using System.Collections.Generic;
 
-namespace vega.Controllers
+namespace Vega.Controllers
 {
     [Route("api/[controller]")]
     public class VehiclesController : Controller
@@ -114,9 +114,11 @@ namespace vega.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<VehicleResource>> GetVehicles()
+        public async Task<IEnumerable<VehicleResource>> GetVehicles(FilterResource filterResource)
         {
-            var vehicles = await _repo.GetVehicles();
+            var filter = _mapper.Map<FilterResource, Filter>(filterResource);
+
+            var vehicles = await _repo.GetVehicles(filter);
 
             return _mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles);
         }
