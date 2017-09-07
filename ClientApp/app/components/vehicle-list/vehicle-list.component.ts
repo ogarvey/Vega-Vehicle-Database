@@ -11,41 +11,27 @@ import { Observable } from "rxjs/Observable";
 
 export class VehicleListComponent implements OnInit {
     vehicles: Vehicle[];
-    allVehicles: Vehicle[];
     makes: any[];
     models: KeyValuePair[];
-    filter: any = { };
+    filter: any = {};
 
     constructor(private vehicleService: VehicleService) { }
 
     ngOnInit() {
         var sources = [
             this.vehicleService.getMakes(),
-            this.vehicleService.getVehicles()
+            this.vehicleService.getVehicles(this.filter)
         ];
 
         Observable.forkJoin(sources).subscribe(data => {
             this.makes = data[0];
-            this.vehicles = this.allVehicles = data[1];
+            this.vehicles = data[1];
         });
     }
 
     onFilterChange() {
-        var vehicles = this.allVehicles;
-
-        if (this.filter.makeId) {
-            vehicles = vehicles.filter(v => v.make.id == this.filter.makeId);
-            var selectedMake = this.makes.find(m => m.id == this.filter.makeId);
-            this.models = selectedMake ? selectedMake.models : [];
-        }
-
-        if (this.filter.modelId) 
-            vehicles = vehicles.filter(v => v.model.id == this.filter.modelId);
-
-        if (this.filter.isRegistered)
-            vehicles = vehicles.filter(v => v.isRegistered == <any>this.filter.isRegistered)
-
-        this.vehicles = vehicles;
+        this.vehicleService.getVehicles(this.filter)
+            .subscribe(vehicles => this.vehicles = vehicles);
     }
 
     resetFilter() {
