@@ -1,41 +1,66 @@
 import { KeyValuePair } from '../../models/keyValuePair';
-import { VehicleService } from '../../services/vehicle.service';
-import { Vehicle } from '../../models/vehicle';
+import { Vehicle} from '../../models/vehicle';
+import { VehicleService } from './../../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from "rxjs/Observable";
 
 @Component({
-    selector: 'vehicle-list',
-    templateUrl: 'vehicle-list.component.html'
+  templateUrl: 'vehicle-list.component.html'
 })
-
 export class VehicleListComponent implements OnInit {
-    vehicles: Vehicle[];
-    makes: any[];
-    models: KeyValuePair[];
-    filter: any = {};
+  private readonly PAGE_SIZE = 3; 
 
-    constructor(private vehicleService: VehicleService) { }
+  queryResult: any = {};
+  makes: KeyValuePair[];
+  query: any = {
+    pageSize: this.PAGE_SIZE
+  };
+  columns = [
+    { title: 'Id' },
+    { title: 'Contact Name', key: 'contactName', isSortable: true },
+    { title: 'Make', key: 'make', isSortable: true },
+    { title: 'Model', key: 'model', isSortable: true },
+    { }
+  ];
 
-    ngOnInit() {
-        var sources = [
-            this.vehicleService.getMakes(),
-            this.vehicleService.getVehicles(this.filter)
-        ];
+  constructor(private vehicleService: VehicleService) { }
 
-        Observable.forkJoin(sources).subscribe(data => {
-            this.makes = data[0];
-            this.vehicles = data[1];
-        });
+  ngOnInit() { 
+    this.vehicleService.getMakes()
+      .subscribe(makes => this.makes = makes);
+
+    this.populateVehicles();
+  }
+
+  private populateVehicles() {
+    this.vehicleService.getVehicles(this.query)
+      .subscribe(result => this.queryResult = result);
+  }
+
+  onFilterChange() {
+    this.query.page = 1; 
+    this.populateVehicles();
+  }
+
+  resetFilter() {
+    this.query = {
+      page: 1,
+      pageSize: this.PAGE_SIZE
+    };
+    this.populateVehicles();
+  }
+
+  sortBy(columnName) {
+    if (this.query.sortBy === columnName) {
+      this.query.isSortAscending = !this.query.isSortAscending; 
+    } else {
+      this.query.sortBy = columnName;
+      this.query.isSortAscending = true;
     }
+    this.populateVehicles();
+  }
 
-    onFilterChange() {
-        this.vehicleService.getVehicles(this.filter)
-            .subscribe(vehicles => this.vehicles = vehicles);
-    }
-
-    resetFilter() {
-        this.filter = {};
-        this.onFilterChange();
-    }
+  onPageChange(page) {
+    this.query.page = page; 
+    this.populateVehicles();
+  }
 }

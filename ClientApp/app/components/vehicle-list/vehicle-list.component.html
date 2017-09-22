@@ -1,51 +1,45 @@
 <h2>Vehicles</h2>
 <p>
-    <a [routerLink]="['/vehicles/new']" class="btn btn-primary">New Vehicle</a>
+  <a [routerLink]="['/vehicles/new']" class="btn btn-primary">New Vehicle</a>
 </p>
 <div class="well">
-    <div class="form-group">
-        <label for="make">Make</label>
-        <select name="make" id="make" class="form-control" [(ngModel)]="filter.makeId" (change)="onFilterChange()">
-                <option value="">Filter by make...</option>
-                <option *ngFor="let m of makes" value="{{m.id}}">{{ m.name }}</option>
-                </select>
-    </div>
-    <div class="form-group">
-        <label for="model">Model</label>
-        <select name="model" id="model" class="form-control" [(ngModel)]="filter.modelId" (change)="onFilterChange()">
-                <option value="">Filter by model...</option>
-                <option *ngFor="let m of models" value="{{m.id}}">{{ m.name }}</option>
-                </select>
-    </div>
-    <div class="form-group">
-        <label for="registered">Registered</label>
-        <select name="registered" id="registered" class="form-control" [(ngModel)]="filter.isRegistered" (change)="onFilterChange()">
-                <option value="">Filter by registration...</option>
-                <option value="1">Registered</option>
-                <option value="0">Unegistered</option>
-                </select>
-    </div>
-    <button class="btn btn-default" (click)="resetFilter()">Reset</button>
+  <div class="form-group">
+    <label for="make">Make</label>
+    <select id="make" class="form-control" [(ngModel)]="query.makeId" (change)="onFilterChange()">
+      <option value=""></option>
+      <option *ngFor="let m of makes" value="{{ m.id }}">{{ m.name }}</option>
+    </select>
+  </div>
+  <button class="btn btn-default" (click)="resetFilter()">Reset</button>
 </div>
-<div class="table-responsive">
-    <table class="table table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Contact Name</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tr *ngFor="let vehicle of vehicles">
-            <th scope="row">{{ vehicle.id }}</th>
-            <td>{{ vehicle.make.name }}</td>
-            <td>{{ vehicle.model.name }}</td>
-            <td>{{ vehicle.contact.name }}</td>
-            <td>
-                <a [routerLink]="['/vehicles/', vehicle.id]">View</a>
-            </td>
-        </tr>
-    </table>
-</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th *ngFor="let c of columns">
+        <div *ngIf="c.isSortable" (click)="sortBy(c.key)">
+          {{ c.title }}
+          <i *ngIf="query.sortBy === c.key" 
+            class="fa"
+            [class.fa-sort-asc]="query.isSortAscending"
+            [class.fa-sort-desc]="!query.isSortAscending"
+          ></i>
+        </div>
+        <div *ngIf="!c.isSortable">
+          {{ c.title }}
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let v of queryResult.items">
+      <td>{{ v.id }}</td>
+      <td>{{ v.make.name }}</td>
+      <td>{{ v.model.name }}</td>
+      <td>{{ v.contact.name }}</td>
+      <td>
+        <a [routerLink]="['/vehicles/', v.id]">View</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<pagination [total-items]="queryResult.totalItems" [page-size]="query.pageSize" (page-changed)="onPageChange($event)"></pagination>
