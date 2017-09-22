@@ -57,6 +57,18 @@ namespace Vega.Data.Persistence
             if (queryObj.IsRegistered.HasValue)
                 query = query.Where( v => v.IsRegistered == queryObj.IsRegistered.Value);
 
+            if(queryObj.SortBy == "make")
+                query = (queryObj.IsSortAscending) ? query.OrderBy(v => v.Model.Make.Name) : query.OrderByDescending(v => v.Model.Make.Name);
+
+            if(queryObj.SortBy == "model")
+                query = (queryObj.IsSortAscending) ? query.OrderBy(v => v.Model.Name) : query.OrderByDescending(v => v.Model.Name);
+
+            if(queryObj.SortBy == "contactName")
+                query = (queryObj.IsSortAscending) ? query.OrderBy(v => v.ContactName) : query.OrderByDescending(v => v.ContactName);
+
+            if(queryObj.SortBy == "id")
+                query = (queryObj.IsSortAscending) ? query.OrderBy(v => v.Id) : query.OrderByDescending(v => v.Id);
+
             return await query.ToListAsync();
         }
     }
