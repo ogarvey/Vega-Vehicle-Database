@@ -1,6 +1,8 @@
+using Vega.Interfaces;
+
 namespace Vega.Data.Models
 {
-    public class VehicleQuery
+    public class VehicleQuery : IQueryObject
     {
         public int? MakeId { get; set; }
         public int? ModelId { get; set; }

@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Vega.Data.Models;
+using Vega.Extensions;
 using Vega.Interfaces;
 
 namespace Vega.Data.Persistence
@@ -67,19 +68,9 @@ namespace Vega.Data.Persistence
                 ["id"] = v => v.Id
             };
 
-            query = ApplyOrdering(queryObj, query, columnsMap);
+            query = query.ApplyOrdering(queryObj, columnsMap);
                 
             return await query.ToListAsync();
-        }
-
-        private IQueryable<Vehicle> ApplyOrdering(VehicleQuery queryObj, IQueryable<Vehicle> query, Dictionary<string, Expression<Func<Vehicle, object>>> columnsMapping)
-        {
-            if (queryObj.IsSortAscending)
-                query = query.OrderBy(columnsMapping[queryObj.SortBy]);
-            else
-                query = query.OrderByDescending(columnsMapping[queryObj.SortBy]);
-                
-            return query;
         }
     }
 }
